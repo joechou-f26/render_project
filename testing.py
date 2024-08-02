@@ -7,7 +7,7 @@ if 'data' not in st.session_state:
     st.session_state['data'] = []
 
 def load_review_data():
-    try:
+    try:                  
         df = pd.read_csv('/mount/src/peer_review/review_data.csv')
         st.table(df)
         return df
