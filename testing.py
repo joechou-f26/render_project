@@ -11,8 +11,8 @@ if 'data' not in st.session_state:
 
 def load_review_data():
     gmt8 = pytz.timezone('Asia/Taipei')
-    current_datetime_gmt8 = datetime.now(gmt8)
-    st.write("Current date and time in GMT+8:", current_datetime_gmt8)
+    formatted_datetime_gmt8 = datetime.now(gmt8).strftime("%Y-%m-%d %H:%M:%S")
+    st.write("Current date and time in GMT+8:", formatted_datetime_gmt8)
     
     try:                  
         df = pd.read_csv('/mount/src/peer_review/review_data.csv')
