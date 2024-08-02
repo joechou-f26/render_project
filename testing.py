@@ -10,10 +10,13 @@ if 'data' not in st.session_state:
     st.session_state['data'] = []
 
 def load_review_data():
-    gmt8 = pytz.timezone('Asia/Taipei')
-    formatted_datetime_gmt8 = datetime.now(gmt8).strftime("%Y-%m-%d %H:%M:%S")
-    st.write("Current date and time in GMT+8:", formatted_datetime_gmt8)
-    
+
+    # Define the directory path
+    directory_path = '/mount/src/peer_review'
+
+    if os.path.exists(directory_path):
+       st.write(f"The directory {directory_path} exists.")
+        
     try:                  
         df = pd.read_csv('/mount/src/peer_review/review_data.csv')
         st.table(df)
