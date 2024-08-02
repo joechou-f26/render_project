@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # Initialize session state
 if 'data' not in st.session_state:
@@ -12,9 +13,27 @@ def add_data():
 # Function to save data to CSV
 def save_data():
     df = pd.DataFrame(st.session_state['data'], columns=['Data'])
-    df.to_csv('data.csv', index=False)
-    st.success("Data saved to data.csv")
- 
+    file_path = os.path.join(os.getcwd(), 'data.csv')
+    df.to_csv(file_path, index=False)
+    st.session_state['file_path'] = file_path
+    st.success(f"Data saved to {file_path}")
+
+# Function to provide download link
+def download_link():
+    if 'file_path' in st.session_state and os.path.exists(st.session_state['file_path']):
+        with open(st.session_state['file_path'], 'rb') as f:
+            st.download_button(
+                label="Download data.csv",
+                data=f,
+                file_name='data.csv',
+                mime='text/csv'
+            )
+    else:
+        st.warning("No file to download. Please save data first.")
+
+# Display current working directory
+st.write(f"Current working directory: {os.getcwd()}")
+
 # Display input field and buttons
 st.text_input("Enter data", key="input_data")
 if st.button("Add Data"):
@@ -25,19 +44,5 @@ if st.button("Save Data"):
 # Display stored data
 st.write("Stored data:", st.session_state['data'])
 
-df = pd.read_csv("data.csv")
-
-@st.cache_data
-def convert_df(df):
-   return df.to_csv(index=False).encode('utf-8')
-
-csv = convert_df(df)
-st.download_button(
-   "Press to Download",
-   csv,
-   "data.csv",
-   "text/csv",
-   key='download-csv'
-)
-
-
+# Provide download link
+download_link()
