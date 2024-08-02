@@ -23,4 +23,5 @@ if st.button("Save Data"):
     save_data()
 
 # Display stored data
-st.write("Stored data:", st.session_state['data'
+st.write("Stored data:", st.session_state['data'])
+
