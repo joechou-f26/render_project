@@ -1,12 +1,20 @@
 import streamlit as st
 import pandas as pd
 import os
+import pytz
+
 
 # Initialize session state
 if 'data' not in st.session_state:
     st.session_state['data'] = []
 
 def load_review_data():
+    # Define the GMT+8 time zone
+    gmt8 = pytz.timezone('Asia/Taipei')
+
+    # Get the current date and time in GMT+8
+    current_datetime_gmt8 = datetime.now(gmt8)
+    
     try:                  
         df = pd.read_csv('/mount/src/peer_review/review_data.csv')
         st.table(df)
