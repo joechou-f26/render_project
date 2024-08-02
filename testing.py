@@ -12,11 +12,13 @@ if 'data' not in st.session_state:
 def load_review_data():
 
     # Define the directory path
+    st.write(os.path.join(os.getcwd())
     directory_path = '/mount/src/peer_review/'
     if os.path.exists(directory_path):
        st.write(f"The directory {directory_path} exists.")
     else:    
-       st.write(f"The directory {directory_path} NOT exists.")       
+       st.write(f"The directory {directory_path} NOT exists.")     
+    '''    
     try:                  
         df = pd.read_csv('/mount/src/peer_review/review_data.csv')
         st.table(df)
@@ -27,7 +29,7 @@ def load_review_data():
         st.error("Permission denied. Please check the file permissions.")
     except Exception as e:
         st.error(f"An unexpected error occurred: {e}")
-    
+    '''
 # Function to add data
 def add_data():
     st.session_state['data'].append(st.session_state.input_data)
