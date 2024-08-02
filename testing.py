@@ -25,3 +25,7 @@ if st.button("Save Data"):
 # Display stored data
 st.write("Stored data:", st.session_state['data'])
 
+df1=pd.read_csv('data.csv')
+st.table(df1)
+
+
