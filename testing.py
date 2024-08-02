@@ -16,7 +16,7 @@ def load_review_data():
     if os.path.exists(directory_path):
        st.write(f"The directory {directory_path} exists.")
     else:    
-    st.write(f"The directory {directory_path} NOT exists.")       
+       st.write(f"The directory {directory_path} NOT exists.")       
     try:                  
         df = pd.read_csv('/mount/src/peer_review/review_data.csv')
         st.table(df)
