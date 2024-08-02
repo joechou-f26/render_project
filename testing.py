@@ -12,8 +12,7 @@ if 'data' not in st.session_state:
 def load_review_data():
 
     # Define the directory path
-    directory_path = '/mount/src/peer_review'
-
+    directory_path = '/mount/src/peer_review/'
     if os.path.exists(directory_path):
        st.write(f"The directory {directory_path} exists.")
         
