@@ -13,7 +13,7 @@ def load_review_data():
 
     # Define the directory path
     st.write(os.path.join(os.getcwd()))
-    directory_path = '/mount/src/peer_review/'
+    directory_path = '/mount/src/render_project'
     if os.path.exists(directory_path):
        st.write(f"The directory {directory_path} exists.")
     else:    
