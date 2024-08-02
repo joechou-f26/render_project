@@ -7,8 +7,16 @@ if 'data' not in st.session_state:
     st.session_state['data'] = []
 
 def load_review_data():
-    df = pd.read_csv('/mount/src/peer_review/review_data.csv')
-    st.table(df)
+    try:
+        df = pd.read_csv('/mount/src/peer_review/review_data.csv')
+        st.table(df)
+        return df
+    except FileNotFoundError:
+        st.error("File not found. Please check the file path.")
+    except PermissionError:
+        st.error("Permission denied. Please check the file permissions.")
+    except Exception as e:
+        st.error(f"An unexpected error occurred: {e}")
     
 # Function to add data
 def add_data():
@@ -46,6 +54,7 @@ if st.button("Save Data"):
     save_data()
 if st.button("Load review_data.csv"):
     load_review_data()
+    
     
 # Display stored data
 st.write("Stored data:", st.session_state['data'])
