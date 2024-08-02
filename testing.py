@@ -6,6 +6,10 @@ import os
 if 'data' not in st.session_state:
     st.session_state['data'] = []
 
+def load_review_data():
+    df = pd.read_csv('/mount/src/peer_review/review_data.csv')
+    st.table(df)
+    
 # Function to add data
 def add_data():
     st.session_state['data'].append(st.session_state.input_data)
@@ -23,7 +27,7 @@ def download_link():
     if 'file_path' in st.session_state and os.path.exists(st.session_state['file_path']):
         with open(st.session_state['file_path'], 'rb') as f:
             st.download_button(
-                label="Download data.csv",
+                label="Download Raw Data",
                 data=f,
                 file_name='data.csv',
                 mime='text/csv'
@@ -35,12 +39,14 @@ def download_link():
 st.write(f"Current working directory: {os.getcwd()}")
 
 # Display input field and buttons
-st.text_input("Enter data", key="input_data")
+st.text_input("Enter filename", key="input_data")
 if st.button("Add Data"):
     add_data()
 if st.button("Save Data"):
     save_data()
-
+if st.button("Load review_data.csv"):
+    load_review_data()
+    
 # Display stored data
 st.write("Stored data:", st.session_state['data'])
 
