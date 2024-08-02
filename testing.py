@@ -25,7 +25,19 @@ if st.button("Save Data"):
 # Display stored data
 st.write("Stored data:", st.session_state['data'])
 
-df1=pd.read_csv('data.csv')
-st.table(df1)
+df = pd.read_csv("dir/file.csv")
+
+@st.cache_data
+def convert_df(df):
+   return df.to_csv(index=False).encode('utf-8')
+
+csv = convert_df(df)
+st.download_button(
+   "Press to Download",
+   csv,
+   "file.csv",
+   "text/csv",
+   key='download-csv'
+)
 
 
