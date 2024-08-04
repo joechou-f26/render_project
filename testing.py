@@ -26,7 +26,7 @@ button_html = """
         <img src="btn_prev.png" alt="Load Data">
     </div>
     <div id="btn2">
-        <img src="btn_next.png" alt="Save Data">
+        <img src="btn_nex.png" alt="Save Data">
     </div>
 </div>
 <script>
