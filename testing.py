@@ -4,7 +4,6 @@ import os
 from datetime import datetime
 import pytz
 
-
 # Custom CSS to style the buttons with images
 st.markdown("""
     <style>
@@ -24,10 +23,10 @@ st.markdown("""
 button_html = """
 <div class="button-container">
     <div id="btn1">
-        <img src="btn1.png" alt="Load Data">
+        <img src="btn_prev.png" alt="Load Data">
     </div>
     <div id="btn2">
-        <img src="btn2.png" alt="Save Data">
+        <img src="btn_next.png" alt="Save Data">
     </div>
 </div>
 <script>
