@@ -5,71 +5,68 @@ from datetime import datetime
 import pytz
 
 
-# Initialize session state
-if 'data' not in st.session_state:
-    st.session_state['data'] = []
+# Custom CSS to style the buttons with images
+st.markdown("""
+    <style>
+    .button-container {
+        display: flex;
+        justify-content: space-around;
+    }
+    .button img {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-def load_review_data():
+# HTML and JavaScript for buttons with images
+button_html = """
+<div class="button-container">
+    <div id="btn1">
+        <img src="btn1.png" alt="Load Data">
+    </div>
+    <div id="btn2">
+        <img src="btn2.png" alt="Save Data">
+    </div>
+</div>
+<script>
+    document.getElementById('btn_prev.png').onclick = function() {
+        window.parent.postMessage('btn1', '*');
+    }
+    document.getElementById('btn2_next.png').onclick = function() {
+        window.parent.postMessage('btn2', '*');
+    }
+</script>
+"""
 
-    # Define the directory path
-    st.write(os.path.join(os.getcwd()))
-    directory_path = '/mount/src/peer_review'
-    if os.path.exists(directory_path):
-       st.write(f"The directory {directory_path} exists.")
-    else:    
-       st.write(f"The directory {directory_path} NOT exists.")     
-    '''    
-    try:                  
-        df = pd.read_csv('/mount/src/peer_review/review_data.csv')
-        st.table(df)
-        return df
-    except FileNotFoundError:
-        st.error("File not found. Please check the file path.")
-    except PermissionError:
-        st.error("Permission denied. Please check the file permissions.")
-    except Exception as e:
-        st.error(f"An unexpected error occurred: {e}")
-    '''
-# Function to add data
-def add_data():
-    st.session_state['data'].append(st.session_state.input_data)
+# Display the HTML
+st.markdown(button_html, unsafe_allow_html=True)
 
-# Function to save data to CSV
-def save_data():
-    df = pd.DataFrame(st.session_state['data'], columns=['Data'])
-    file_path = os.path.join(os.getcwd(), 'data.csv')
-    df.to_csv(file_path, index=False)
-    st.session_state['file_path'] = file_path
-    st.success(f"Data saved to {file_path}")
+# Placeholder for button actions
+action = st.empty()
 
-# Function to provide download link
-def download_link():
-    if 'file_path' in st.session_state and os.path.exists(st.session_state['file_path']):
-        with open(st.session_state['file_path'], 'rb') as f:
-            st.download_button(
-                label="Download Raw Data",
-                data=f,
-                file_name='data.csv',
-                mime='text/csv'
-            )
-    else:
-        st.warning("No file to download. Please save data first.")
+# Function to handle button click messages from JavaScript
+def process_js_data(data):
+    if data == 'btn1':
+        st.session_state.button_clicked = 'Load Data'
+    elif data == 'btn2':
+        st.session_state.button_clicked = 'Save Data'
 
-# Display current working directory
-st.write(f"Current working directory: {os.getcwd()}")
+# JS callback to handle messages from the buttons
+st.markdown("""
+    <script>
+        window.addEventListener('message', function(event) {
+            window.parent.streamlitRerun({
+                button_clicked: event.data
+            });
+        });
+    </script>
+    """, unsafe_allow_html=True)
 
-# Display input field and buttons
-st.text_input("Enter filename", key="input_data")
-if st.button("Add Data"):
-    add_data()
-if st.button("Save Data"):
-    save_data()
-if st.button("Load review_data.csv"):
-    load_review_data()
-    
-    
-# Display stored data
-st.write("Stored data:", st.session_state['data'])
-
-# Provide download link
-download_link()
+# Display messages based on button clicks
+if 'button_clicked' in st.session_state:
+    if st.session_state.button_clicked == 'Load Data':
+        action.write('Load Data button clicked')
+    elif st.session_state.button_clicked == 'Save Data':
+        action.write('Save Data button clicked')
